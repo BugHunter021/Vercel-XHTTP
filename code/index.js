@@ -1,8 +1,8 @@
 export const config = { runtime: "edge" };
 
-const TARGET_BASE = (process.env.TARGET_DOMAIN || "").replace(/\/$/, "");
+const TRG_BSE = (process.env.TRG_DMN || "").replace(/\/$/, "");
 
-const STRIP_HEADERS = new Set([
+const New_HEADS = new Set([
   "host",
   "connection",
   "keep-alive",
@@ -19,36 +19,36 @@ const STRIP_HEADERS = new Set([
 ]);
 
 export default async function handler(req) {
-  if (!TARGET_BASE) {
-    return new Response("Misconfigured: TARGET_DOMAIN is not set", { status: 500 });
+  if (!TRG_BSE) {
+    return new Response("tanzimattttttt kharabeeee: TRG_DMN nist", { status: 500 });
   }
 
   try {
-    const pathStart = req.url.indexOf("/", 8);
-    const targetUrl =
-      pathStart === -1 ? TARGET_BASE + "/" : TARGET_BASE + req.url.slice(pathStart);
+    const pthStr = req.url.indexOf("/", 8);
+    const trguri =
+      pthStr === -1 ? TRG_BSE + "/" : TRG_BSE + req.url.slice(pthStr);
 
     const out = new Headers();
-    let clientIp = null;
+    let clip = null;
     for (const [k, v] of req.headers) {
-      if (STRIP_HEADERS.has(k)) continue;
+      if (New_HEADS.has(k)) continue;
       if (k.startsWith("x-vercel-")) continue;
       if (k === "x-real-ip") {
-        clientIp = v;
+        clip = v;
         continue;
       }
       if (k === "x-forwarded-for") {
-        if (!clientIp) clientIp = v;
+        if (!clip) clip = v;
         continue;
       }
       out.set(k, v);
     }
-    if (clientIp) out.set("x-forwarded-for", clientIp);
+    if (clip) out.set("x-forwarded-for", clip);
 
     const method = req.method;
     const hasBody = method !== "GET" && method !== "HEAD";
 
-    return await fetch(targetUrl, {
+    return await fetch(trguri, {
       method,
       headers: out,
       body: hasBody ? req.body : undefined,
@@ -56,7 +56,7 @@ export default async function handler(req) {
       redirect: "manual",
     });
   } catch (err) {
-    console.error("relay error:", err);
-    return new Response("Bad Gateway: Tunnel Failed", { status: 502 });
+    console.error("shomare khata:", err);
+    return new Response("dadash giti bad shodeeeeeeee: tun ham kharab shodeeee", { status: 502 });
   }
 }
