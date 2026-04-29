@@ -1,8 +1,8 @@
 {
-  "version": 2,
-  "name": "vercel-xhttp-relay",
+  "version": 3,
+  "name": "MovieIMDB",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/api/index" }
+    { "source": "/(.*)", "destination": "/code/index" }
   ],
   "trailingSlash": false
 }
